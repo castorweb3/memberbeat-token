@@ -7,6 +7,10 @@ on:
 
 env:
   FOUNDRY_PROFILE: ci
+  OWNER_ACCOUNT: ${{ secrets.OWNER_ACCOUNT }}
+  TOKEN_NAME: ${{ secrets.TOKEN_NAME }}
+  TOKEN_SYMBOL: ${{ secrets.TOKEN_SYMBOL }}
+  SUBSCRIPTION_MANAGER_ADDRESS: ${{ secrets.SUBSCRIPTION_MANAGER_ADDRESS }}
 
 jobs:
   check:
