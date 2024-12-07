@@ -20,7 +20,6 @@ pragma solidity 0.8.20;
  * @dev ERC20 Token that can be minted and burned only by the MemberbeatSubscriptionManager contract.
  */
 interface IMemberBeatToken {
-
     /**
      * @dev Mints new tokens. Can only be called by the subscription manager contract.
      * @param _account The address to mint tokens to.
@@ -34,5 +33,4 @@ interface IMemberBeatToken {
      * @param _amount The number of tokens to burn.
      */
     function burn(address _account, uint256 _amount) external;
-
 }

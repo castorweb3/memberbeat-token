@@ -15,22 +15,21 @@
 
 pragma solidity 0.8.20;
 
-import { Script, console } from "forge-std/Script.sol";
+import {Script, console} from "forge-std/Script.sol";
 
 contract HelperConfig is Script {
-
     uint256 public constant SEPOLIA_CHAIN_ID = 111555111;
     uint256 public constant ARBITRUM_SEPOLIA_CHAIN_ID = 421614;
 
     struct NetworkConfig {
         address account;
         string tokenName;
-        string tokenSymbol;      
-        address subscriptionManager;    
+        string tokenSymbol;
+        address subscriptionManager;
     }
 
     NetworkConfig activeConfig;
-    
+
     constructor() {
         if (block.chainid == SEPOLIA_CHAIN_ID) {
             activeConfig = getSepoliaEthConfig();
@@ -57,14 +56,14 @@ contract HelperConfig is Script {
         if (activeConfig.account != address(0)) {
             return activeConfig;
         }
-        
+
         return createConfig();
     }
 
     function createConfig() private returns (NetworkConfig memory) {
         address account = address(uint160(vm.envUint("OWNER_ACCOUNT")));
         string memory tokenName = vm.envString("TOKEN_NAME");
-        string memory tokenSymbol = vm.envString("TOKEN_SYMBOL");    
+        string memory tokenSymbol = vm.envString("TOKEN_SYMBOL");
         address subscriptionManager = address(uint160(vm.envUint("SUBSCRIPTION_MANAGER_ADDRESS")));
 
         activeConfig = NetworkConfig({

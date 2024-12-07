@@ -15,19 +15,18 @@
 
 pragma solidity 0.8.20;
 
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import { IMemberBeatToken } from "src/IMemberBeatToken.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IMemberBeatToken} from "src/IMemberBeatToken.sol";
 
 /**
  * @title MemberBeatToken
  * @dev ERC20 Token that can be minted and burned only by the MemberbeatSubscriptionManager contract.
  */
 contract MemberBeatToken is ERC20, Ownable, IMemberBeatToken {
-
     /**
      * @dev Address of the Memberbeat subscription manager contract (IMemberbeatSubscriptionManager).
-     * @notice https://github.com/castorweb3/memberbeat-contracts          
+     * @notice https://github.com/castorweb3/memberbeat-contracts
      */
     address private s_subscriptionManager;
 
@@ -58,7 +57,7 @@ contract MemberBeatToken is ERC20, Ownable, IMemberBeatToken {
      * @param _name The name of the token.
      * @param _symbol The symbol of the token.
      */
-    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) Ownable(msg.sender) {}    
+    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) Ownable(msg.sender) {}
 
     /**
      * @dev Sets the subscription manager address. Can only be called by the contract owner.
@@ -88,5 +87,4 @@ contract MemberBeatToken is ERC20, Ownable, IMemberBeatToken {
     function burn(address _account, uint256 _amount) external onlySubscriptionManager {
         _burn(_account, _amount);
     }
-
 }

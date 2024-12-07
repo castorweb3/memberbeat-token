@@ -16,7 +16,7 @@
 pragma solidity 0.8.20;
 
 import {Script} from "forge-std/Script.sol";
-import {MemberBeatToken } from "src/MemberBeatToken.sol";
+import {MemberBeatToken} from "src/MemberBeatToken.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
 
 contract DeployToken is Script {
@@ -24,17 +24,13 @@ contract DeployToken is Script {
         deployToken();
     }
 
-    function deployToken()
-        public
-        returns (MemberBeatToken, HelperConfig)
-    {
+    function deployToken() public returns (MemberBeatToken, HelperConfig) {
         HelperConfig helperConfig = new HelperConfig();
         HelperConfig.NetworkConfig memory config = helperConfig.getActiveConfig();
 
         vm.startBroadcast(config.account);
-        MemberBeatToken memberBeatToken =
-            new MemberBeatToken(config.tokenName, config.tokenSymbol);
-        
+        MemberBeatToken memberBeatToken = new MemberBeatToken(config.tokenName, config.tokenSymbol);
+
         memberBeatToken.setSubscriptionManager(config.subscriptionManager);
 
         vm.stopBroadcast();
