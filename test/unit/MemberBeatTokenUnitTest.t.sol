@@ -78,7 +78,7 @@ contract MemberBeatTokenUnitTest is Test, TestingUtils {
         token.mint(RANDOM_USER, MINT_AMOUNT);
 
         Vm.Log[] memory entries = vm.getRecordedLogs();
-        (Vm.Log memory mintedEvent, bool found) = findEvent(entries, "MemberBeatToken__Minted(address,uint256)");        
+        (Vm.Log memory mintedEvent, bool found) = findEvent(entries, "MemberBeatToken__Minted(address,uint256)");
         assert(found);
 
         address account = address(uint160(uint256(mintedEvent.topics[1])));
