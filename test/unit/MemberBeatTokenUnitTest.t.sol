@@ -15,14 +15,16 @@
 
 pragma solidity 0.8.20;
 
-import {Test} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {MemberBeatToken} from "src/MemberBeatToken.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
 import {DeployToken} from "script/DeployToken.s.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {TestingUtils} from "test/TestingUtils.t.sol";
+import {Vm} from "forge-std/Vm.sol";
 
-contract MemberBeatTokenUnitTest is Test {
+contract MemberBeatTokenUnitTest is Test, TestingUtils {
     DeployToken deployer;
     HelperConfig helperConfig;
     HelperConfig.NetworkConfig config;
@@ -68,6 +70,22 @@ contract MemberBeatTokenUnitTest is Test {
         token.mint(RANDOM_USER, MINT_AMOUNT);
         uint256 balance = IERC20(token).balanceOf(RANDOM_USER);
         assertEq(balance, MINT_AMOUNT);
+    }
+
+    function testMintEmitsMintedEvent() public {
+        vm.recordLogs();
+        vm.prank(config.subscriptionManager);
+        token.mint(RANDOM_USER, MINT_AMOUNT);
+
+        Vm.Log[] memory entries = vm.getRecordedLogs();
+        (Vm.Log memory mintedEvent, bool found) = findEvent(entries, "MemberBeatToken__Minted(address,uint256)");        
+        assert(found);
+
+        address account = address(uint160(uint256(mintedEvent.topics[1])));
+        uint256 amount = uint256(mintedEvent.topics[2]);
+
+        assertEq(account, RANDOM_USER);
+        assertEq(amount, MINT_AMOUNT);
     }
 
     function testBurnRevertsIfNotSubscriptionManager() public {

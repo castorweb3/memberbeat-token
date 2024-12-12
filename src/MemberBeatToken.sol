@@ -74,17 +74,21 @@ contract MemberBeatToken is ERC20, Ownable, IMemberBeatToken {
      * @dev Mints new tokens. Can only be called by the subscription manager contract.
      * @param _account The address to mint tokens to.
      * @param _amount The number of tokens to mint.
+     * @notice Emits a {MemberBeatToken__Minted} event.
      */
     function mint(address _account, uint256 _amount) external onlySubscriptionManager {
         _mint(_account, _amount);
+        emit MemberBeatToken__Minted(_account, _amount);
     }
 
     /**
      * @dev Burns tokens. Can only be called by the subscription manager contract.
      * @param _account The address to burn tokens from.
      * @param _amount The number of tokens to burn.
+     * @notice Emits a {MemberBeatToken__Burned} event.
      */
     function burn(address _account, uint256 _amount) external onlySubscriptionManager {
         _burn(_account, _amount);
+        emit MemberBeatToken__Burned(_account, _amount);
     }
 }
