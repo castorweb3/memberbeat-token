@@ -78,7 +78,7 @@ contract MemberBeatToken is ERC20, Ownable, IMemberBeatToken {
      */
     function mint(address _account, uint256 _amount) external onlySubscriptionManager {
         _mint(_account, _amount);
-        emit MemberBeatToken__Minted(_account, _amount);
+        emit MemberBeatTokenMinted(_account, _amount);
     }
 
     /**
@@ -89,6 +89,6 @@ contract MemberBeatToken is ERC20, Ownable, IMemberBeatToken {
      */
     function burn(address _account, uint256 _amount) external onlySubscriptionManager {
         _burn(_account, _amount);
-        emit MemberBeatToken__Burned(_account, _amount);
+        emit MemberBeatTokenBurned(_account, _amount);
     }
 }

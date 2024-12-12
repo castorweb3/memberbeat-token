@@ -78,7 +78,7 @@ contract MemberBeatTokenUnitTest is Test, TestingUtils {
         token.mint(RANDOM_USER, MINT_AMOUNT);
 
         Vm.Log[] memory entries = vm.getRecordedLogs();
-        (Vm.Log memory mintedEvent, bool found) = findEvent(entries, "MemberBeatToken__Minted(address,uint256)");
+        (Vm.Log memory mintedEvent, bool found) = findEvent(entries, "MemberBeatTokenMinted(address,uint256)");
         assert(found);
 
         address account = address(uint160(uint256(mintedEvent.topics[1])));
@@ -99,5 +99,21 @@ contract MemberBeatTokenUnitTest is Test, TestingUtils {
         token.burn(RANDOM_USER, BURN_AMOUNT);
         uint256 balance = IERC20(token).balanceOf(RANDOM_USER);
         assertEq(balance, MINT_AMOUNT - BURN_AMOUNT);
+    }
+
+    function testBurnEmitsBurnedEvent() public mintsAmount(RANDOM_USER, MINT_AMOUNT) {
+        vm.recordLogs();
+        vm.prank(config.subscriptionManager);
+        token.burn(RANDOM_USER, MINT_AMOUNT);
+
+        Vm.Log[] memory entries = vm.getRecordedLogs();
+        (Vm.Log memory burnedEvent, bool found) = findEvent(entries, "MemberBeatTokenBurned(address,uint256)");
+        assert(found);
+
+        address account = address(uint160(uint256(burnedEvent.topics[1])));
+        uint256 amount = uint256(burnedEvent.topics[2]);
+
+        assertEq(account, RANDOM_USER);
+        assertEq(amount, MINT_AMOUNT);
     }
 }

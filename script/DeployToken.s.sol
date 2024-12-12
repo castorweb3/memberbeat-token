@@ -31,7 +31,9 @@ contract DeployToken is Script {
         vm.startBroadcast(config.account);
         MemberBeatToken memberBeatToken = new MemberBeatToken(config.tokenName, config.tokenSymbol);
 
-        memberBeatToken.setSubscriptionManager(config.subscriptionManager);
+        if (config.subscriptionManager != address(0)) {
+            memberBeatToken.setSubscriptionManager(config.subscriptionManager);
+        }
 
         vm.stopBroadcast();
         return (memberBeatToken, helperConfig);
