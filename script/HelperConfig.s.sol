@@ -63,9 +63,10 @@ contract HelperConfig is Script {
     function createConfig() private returns (NetworkConfig memory) {
         address account = address(uint160(vm.envUint("OWNER_ACCOUNT")));
         string memory tokenName = vm.envString("TOKEN_NAME");
-        string memory tokenSymbol = vm.envString("TOKEN_SYMBOL");        
+        string memory tokenSymbol = vm.envString("TOKEN_SYMBOL");
         string memory subscriptionManagerEnv = vm.envString("SUBSCRIPTION_MANAGER_ADDRESS");
-        address subscriptionManager = bytes(subscriptionManagerEnv).length == 0 ? address(0) : vm.envAddress("SUBSCRIPTION_MANAGER_ADDRESS");
+        address subscriptionManager =
+            bytes(subscriptionManagerEnv).length == 0 ? address(0) : vm.envAddress("SUBSCRIPTION_MANAGER_ADDRESS");
 
         activeConfig = NetworkConfig({
             account: account,
@@ -76,5 +77,4 @@ contract HelperConfig is Script {
 
         return activeConfig;
     }
-
 }
